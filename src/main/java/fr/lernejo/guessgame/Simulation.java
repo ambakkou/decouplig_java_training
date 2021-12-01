@@ -3,6 +3,11 @@ package fr.lernejo.guessgame;
 import fr.lernejo.logger.Logger;
 import fr.lernejo.logger.LoggerFactory;
 
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+
+
+
 public class Simulation {
 
     private final Logger logger = LoggerFactory.getLogger("simulation");
@@ -29,24 +34,27 @@ public class Simulation {
             logger.log("Nombre trouvé");
             return true;}
         else{
-            if(guess.compareTo(numberToGuess)>0){
-                player.respond(false);
-                return false;
-            }
-            else {
-                player.respond(true);
-                return false;
-            }
-
+            player.respond(guess.compareTo(numberToGuess) <= 0);
+            return false;
         }
     }
 
-    public void loopUntilPlayerSucceed() {
+    public void loopUntilPlayerSucceed(long max) {
         //TODO implement me
         logger.log("Début de la partie !");
+        long debut = System.currentTimeMillis();
         boolean guess = nextRound();
-        while (!guess){
+        long cpt = 0;
+        while (!guess && cpt<max){
             guess = nextRound();
+            cpt++;
         }
+        long fin = System.currentTimeMillis();
+        Timestamp timestamp = new Timestamp(fin-debut);
+        logger.log(new SimpleDateFormat("mm:ss.SSS").format(timestamp));
+        if(guess)
+            logger.log("Résultat trouvé en " + cpt + " itérations");
+        else
+            logger.log("Résultat non trouvé à la suite de " + cpt + " itérations");
     }
 }
