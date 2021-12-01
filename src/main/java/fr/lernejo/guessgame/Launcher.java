@@ -1,11 +1,16 @@
 package fr.lernejo.guessgame;
 
+import fr.lernejo.logger.Logger;
+import fr.lernejo.logger.LoggerFactory;
+
 import java.security.SecureRandom;
 
 public class Launcher {
 
-    public static void main(String[] args) {
 
+    public static void main(String[] args) {
+        Logger logger = LoggerFactory.getLogger("launcher");
+        
         if(args.length == 1 && args[0].equals("-interactive")){
             SecureRandom random = new SecureRandom();
             long randomNumber = random.nextLong(100);
@@ -21,7 +26,7 @@ public class Launcher {
             sim.loopUntilPlayerSucceed(1000);
         }
         else {
-            System.out.println("Argument  -interactive pour jouer, -auto [0-9] pour lancer le bot");
+            logger.log("Argument  -interactive pour jouer, -auto [0-9] pour lancer le bot");
         }
     }
 }
